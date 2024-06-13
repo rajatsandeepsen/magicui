@@ -1,15 +1,14 @@
 import { Command } from "commander";
+import prompts from "prompts";
+import { z } from "zod";
 import { clearAll, getEnv, login } from "../utils/get-env";
 import {
-	ASCII_TEXT,
 	ASCII_PRO,
+	ASCII_TEXT,
 	ColorFullText,
-	tryPro,
-	hasPro,
 	authMessage,
+	hasPro
 } from "../utils/logger";
-import { z } from "zod";
-import prompts from "prompts";
 
 const optionSchema = z.object({
 	clear: z.boolean(),
@@ -43,15 +42,12 @@ export const auth = new Command()
 				if (isClear.value) {
 					clearAll()
 					console.log("Logged out ✅")
-				} 
-					
+				}
+
 				break;
 			}
 			case options.login !== undefined: {
-				const isLogined = await login(options.login)
-				if (isLogined) {
-					console.log(ColorFullText(hasPro))
-				}
+				await login(options.login)
 				break;
 			}
 			default: {
